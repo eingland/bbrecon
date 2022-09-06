@@ -1,0 +1,11 @@
+[Unit]
+Description= Service to check subdomains.txt every hour and upload if new items have been added
+
+[Service]
+User=root
+Type=simple
+ExecStart=/bin/sh /root/awsupload.sh
+Restart=always
+
+[Install]
+WantedBy=default.target
