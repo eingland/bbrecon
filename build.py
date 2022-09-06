@@ -87,7 +87,8 @@ deleteAllDroplets()
 createDroplet(randomDropletName())
 print("[+] Getting instance information...")
 time.sleep(30)
-ssh_client.connect(hostname=getIP(), username='root', password=password,
+ip = getIP()
+ssh_client.connect(hostname=ip, username='root', password=password,
                    key_filename=pathToSSHKey)
 print("[+] Waiting for sshd to start...")
 time.sleep(60)
