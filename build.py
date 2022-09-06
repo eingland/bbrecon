@@ -1,5 +1,3 @@
-# Based on https://www.trenchesofit.com/2021/06/14/bug-bounty-vps-build/
-
 import digitalocean
 import random
 import time
@@ -9,8 +7,8 @@ import os
 
 load_dotenv()
 
-dokey = os.getenv('token')
-password = os.getenv('password')
+dokey = os.getenv('doToken')
+password = os.getenv('sshPassword')
 pathToSSHKey = os.getenv('pathToSSHKey')
 
 ssh_client = paramiko.SSHClient()
@@ -88,10 +86,9 @@ createDroplet(randomDropletName())
 print("[+] Getting instance information...")
 time.sleep(30)
 ip = getIP()
-ssh_client.connect(hostname=ip, username='root', password=password,
-                   key_filename=pathToSSHKey)
 print("[+] Waiting for sshd to start...")
 time.sleep(60)
+ssh_client.connect(hostname=ip, username='root', password=password, key_filename=pathToSSHKey)
 print("[+] Moving needed files to target server...")
 moveFiles()
 print("[+] Executing commands...")

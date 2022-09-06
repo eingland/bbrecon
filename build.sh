@@ -3,17 +3,20 @@ set -e
 
 echo "[+] Building VPS bug bounty server"
 
+echo "[+] Set service autorestart"
+echo "\$nrconf{restart} = 'a';" >> /etc/needrestart/needrestart.conf
+
 echo "[+] Updating Packages"
-apt-get -y update && apt-get -y upgrade
+apt -y update && apt -y upgrade
 
 echo "[+] Installing unzip"
-apt-get -y install unzip
+apt -y install unzip
 
 echo "[+] Installing git"
-apt-get install git
+apt install git
 
 echo "[+] Installing tmux"
-apt-get install tmux
+apt install tmux
 
 echo "[+] Installing go"
 wget https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
@@ -23,7 +26,7 @@ cp /usr/local/go/bin/go /bin/go
 go version
 
 echo "[+] Installing NMAP"
-apt-get -y install nmap
+apt -y install nmap
 
 echo "[+] Installing anew"
 go get -u github.com/tomnomnom/anew
@@ -35,7 +38,7 @@ echo "[+] Installing massdns"
 git clone https://github.com/blechschmidt/massdns.git
 
 echo "[+] Installing gobuster"
-apt-get -y install gobuster
+apt -y install gobuster
 
 echo "[+] Installing ffuf"
 go get -u github.com/ffuf/ffuf
@@ -51,7 +54,7 @@ echo "[+] Installing amass"
 sudo snap install amass
 
 echo "[+] Installing aws cli"
-apt-get -y install awscli
+apt -y install awscli
 unzip /root/.aws.zip -d /root/
 
 touch subdomains.txt
@@ -61,8 +64,8 @@ chmod +x /root/awsupload.sh
 mv /root/awsupload.service /etc/systemd/system/awsupload.service
 
 echo "[+] Starting AWS upload service"
-systemctl enable uploadscript.service
-systemctl start uploadscript.service
+systemctl enable awsupload.service
+systemctl start awsupload.service
 
 echo "[+] Configuring hostname"
 hostnamectl set-hostname bbrecon
